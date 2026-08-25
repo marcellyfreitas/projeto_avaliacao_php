@@ -1,0 +1,18 @@
+RewriteEngine On
+
+# Não redirecionar arquivos ou diretórios que existem
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Rotas amigáveis
+RewriteRule ^login$ index.php?route=login [L]
+RewriteRule ^logout$ index.php?route=logout [L]
+RewriteRule ^dashboard$ index.php?route=dashboard [L,QSA]
+RewriteRule ^servico/novo$ index.php?route=service_new [L]
+RewriteRule ^servico/(\d+)/editar$ index.php?route=service_edit&id=$1 [L]
+RewriteRule ^servico/(\d+)/excluir$ index.php?route=service_delete&id=$1 [L]
+RewriteRule ^servico/(\d+)/finalizar$ index.php?route=service_finish&id=$1 [L]
+
+# Fallback para rotas não encontradas
+RewriteRule ^(.*)$ index.php?route=$1 [L,QSA]
