@@ -17,6 +17,8 @@ if ($path === '' || $path === 'index.php') {
 
 if ($path === 'login') {
     $_GET['route'] = 'login';
+} elseif ($path === 'cadastro') {
+    $_GET['route'] = 'register';
 } elseif ($path === 'logout') {
     $_GET['route'] = 'logout';
 } elseif ($path === 'dashboard') {
@@ -36,4 +38,4 @@ if ($path === 'login') {
     $_GET['route'] = $path;
 }
 
-require $root . '/index.php';
+require dirname(__FILE__) . '/index.php';

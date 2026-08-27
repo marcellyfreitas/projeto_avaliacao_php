@@ -10,18 +10,19 @@ session_start();
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/config/security.php';
 
-// Services (carregados uma vez)
+// Services 
 require_once __DIR__ . '/service/EmailService.php';
 require_once __DIR__ . '/service/AuthService.php';
 require_once __DIR__ . '/service/ServiceService.php';
 require_once __DIR__ . '/service/DashboardService.php';
 
-// Models (carregados uma vez)
+// Models 
 require_once __DIR__ . '/model/UserModel.php';
 require_once __DIR__ . '/model/ServiceModel.php';
 
-// Controllers (carregados uma vez)
+// Controllers 
 require_once __DIR__ . '/controller/LoginController.php';
+require_once __DIR__ . '/controller/RegisterController.php';
 require_once __DIR__ . '/controller/DashboardController.php';
 require_once __DIR__ . '/controller/ServiceController.php';
 
@@ -46,9 +47,9 @@ $getId = function (): ?int {
 };
 
 switch ($route) {
-    // === Login ===
+    // Login
     case 'login':
-        // Já logado? Redireciona para dashboard
+        // Logado? Redireciona para dashboard
         if (isset($_SESSION['user_id'])) {
             header('Location: /dashboard');
             exit;
@@ -56,6 +57,19 @@ switch ($route) {
         $controller = new LoginController();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $controller->handleLogin();
+        } else {
+            $controller->showForm();
+        }
+        break;
+
+    case 'register':
+        if (isset($_SESSION['user_id'])) {
+            header('Location: /dashboard');
+            exit;
+        }
+        $controller = new RegisterController();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $controller->handleRegister();
         } else {
             $controller->showForm();
         }
@@ -72,14 +86,14 @@ switch ($route) {
         header('Location: /login?msg=logout');
         exit;
 
-        // === Dashboard ===
+        // Dashboard
     case 'dashboard':
         $requireAuth();
         $controller = new DashboardController();
         $controller->index();
         break;
 
-    // === Serviços ===
+    // Serviços
     case 'service_new':
         $requireAuth();
         $controller = new ServiceController();

@@ -36,4 +36,15 @@ class UserModel
         $stmt->execute();
         return $stmt->fetchAll();
     }
+
+    public function create(string $name, string $email, string $passwordHash): bool
+    {
+        $stmt = $this->db->prepare(
+            "INSERT INTO user (name, email, password, ativo) VALUES (:name, :email, :password, 1)"
+        );
+        $stmt->bindParam(':name',     $name);
+        $stmt->bindParam(':email',    $email);
+        $stmt->bindParam(':password', $passwordHash);
+        return $stmt->execute();
+    }
 }
