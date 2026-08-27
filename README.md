@@ -1,97 +1,85 @@
-# Avaliacao-PHP-MYSQL
+# Sistema de Ordem de Serviços — JM Informática
 
-## O projeto consiste em análisar o conhecimento nas seguintes técnologias:
+Sistema web para gerenciamento de ordens de serviço da JM Informática.
 
-* PHP Orientado a Objetos
-* Arquiteura MVC
-* PDO com MySql
-* Javascript ou JQuery
+Desenvolvido em **PHP 8.4+ (OOP)**, seguindo o padrão **MVC**, com **MySQL 8, PDO e JavaScript vanilla**, sem utilização de frameworks ou Composer.
 
-*Obs.: Favor enviar junto com o projeto o script da criação das tabelas.*
+## Funcionalidades
 
-## Pontos a se considerar:
-Código legível, comentado e manutenível.
-Separe cada responsabilidade no seu arquivo correto.
-Não poderá ser utilizado nenhuma forma de framework (backend e frontend)  
+* Login e controle de sessão
+* Cadastro de usuários
+* Dashboard com resumo dos serviços
+* Cadastro, edição, exclusão e finalização de serviços
+* Filtros por período, descrição, status e usuário
+* Paginação
+* Cálculo automático de comissão
+* Máscara de valores em reais
+* Notificação por e-mail ao finalizar um serviço
+* Layout responsivo
+* Controle de acesso por usuário
 
-# NÃO UTILIZAR COMPOSER PARA GERENCIAMENTO DE DEPENDÊNCIAS, O CANDIDATO QUE UTILIZAR SERÁ AUTOMATICAMENTE DESCLASSIFICADO.
+## Regras de comissão
 
-O gestor da empresa JM Informática decide criar um sistema de ordem de serviços para controlar os serviços prestados pelos seus funcionários. O sistema deve permitir autenticar-se para acesso a tela inicial (dashboard). Na tela inicial deverá mostrar os dados do usuário logado, a data atual e os serviços prestados.
+| Valor do serviço      | Comissão |
+| --------------------- | -------: |
+| Até R$ 1.000,00       |       5% |
+| Acima de R$ 1.000,00  |      10% |
+| Acima de R$ 10.000,00 |      20% |
 
-## Tela de Login com email ou senha inválidos
-Dado que o usuário acesse tela de login
-Quando quando não informar email e senha corretos
-Então deve mostrar mensagem ‘Ops, Email ou Senha inválido’
+## Tecnologias
 
-## Tela de Login com email e senha válidos
-Dado que o usuário acesse tela de login
-Quando informar email e senha correto
-Então deve ser redirecionado a tela inicial do sistema (Dashboard)
+* PHP 8.4+
+* MySQL 8.0
+* HTML5 / CSS3
+* JavaScript
+* PDO
+* Apache
 
-## Tela de Dashboard
-Dado que o usuário acesse a tela de dashboard com usuário correto
-Então devo ver uma tabela com os serviços prestados pelos funcionários apresentando as seguintes informações (id, descrição, status, valor, nome usuário) com botões de excluir, alterar o registro e um botão para finalizar serviço
+## Segurança
 
+* Senhas armazenadas com bcrypt
+* Proteção contra CSRF
+* Prepared Statements com PDO
+* Escape de saída com `htmlspecialchars()`
+* Regeneração da sessão após o login
+* Cookies `HttpOnly` e `SameSite`
+* Controle de acesso aos serviços pelo usuário responsável
 
-## Tela de Dashboard (Valor Total dos Serviços Prestados pelo Usuário)
-Dado que o usuário acesse a tela de dashboard com usuário correto
-Então deve mostrar de forma destacada o valor total dos serviços prestados por este usuário.
+## Como executar
 
-## Tela de Dashboard (Serviços com status Pendentes Prestados pelo Usuário)
-Dado que o usuário acesse a tela de dashboard com usuário correto
-Então deve mostrar de forma destacada uma pequena lista com os últimos serviços prestados com status “Pendentes”.
+### Pré-requisitos
 
-## Tela de Dashboard (Marcar status como finalizado)
-Dado que o usuário acesse a tela de dashboard com usuário correto
-Então devo clicar no botão do registro a ser finalizado, gravar a data de finalização do serviço e enviar um email para o usuário do serviço, e calcular o valor da comissão. Os serviços que possuem data de finalização serão considerados como finalizados e os que não possuem serão considerados como pendentes.
-	Para valores até R$ 250, 00 será dado 5% de comissão
-	Para valores acima de R$ 1.000,00 será dado 10% de comissão
-	Para valores acima de R$ 10.000,00 será dado 20% de comissão.
+* PHP 8.4+
+* MySQL 8.0
 
+Copie `.env.example` para `.env` e configure as informações de conexão com o banco de dados.
 
+Execute o script `database.sql` no MySQL para criar as tabelas e os dados iniciais.
 
-## Tela de Dashboard (Filtro por período)
-Dado que o usuário acesse a tela de dashboard com usuário correto
-Quando informar filtro por período inicial e final
-Então deve mostrar na tabela os serviços prestados dentro do período
+### Iniciar o servidor
 
-## Tela de Dashboard (Filtro por nome do serviço)
-Dado que o usuário acesse a tela de dashboard com usuário correto
-Quando informar o nome do serviço
-Então deve mostrar os serviços prestados com este nome
+Na raiz do projeto, execute:
 
-## Tela de Dashboard (Filtro por status do serviço)
-Dado que o usuário acesse a tela de dashboard com usuário correto
-Quando informar o status do serviço
-Então deve mostrar os serviços prestados com este status.
+```bash
+php -S localhost:8000 -t src src/router.php
+```
 
-## Tela de Dashboard (Filtro por usuário do serviço)
-Dado que o usuário acesse a tela de dashboard com usuário correto
-Quando informar o nome do usuário do serviço
-Então deve mostrar os serviços prestados por este usuário.
+Acesse:
 
-## Tela de Dashboard (Adicionar Novo Serviço)
-Dado que o usuário acesse a tela de dashboard com usuário correto
-Quando clicar no botão de adicionar novo serviço
-Então deve mostrar nova tela com formulário para cadastrar novo serviço.
+```text
+http://localhost:8000
+```
 
+## Credenciais de teste
 
-## Tela de Cadastro de Serviço (Adicionar novo serviço com sucesso)
-Dado que o usuário acesse a tela de cadastrar novo serviço
-Quando informar as informações obrigatórias(descrição do serviço, valor)
-Então deve cadastrar o novo serviço com status de “Pendente” para o usuário logado, mostrando mensagem de sucesso redirecionando para tela inicial.
+| Usuário      | E-mail                                    | Senha  |
+| ------------ | ----------------------------------------- | ------ |
+| Administrador| admin@jminformatica.com.br                | 123456 |
 
-## Tela de Cadastro de Serviço (Falha ao adicionar novo serviço)
-Dado que o usuário acesse a tela de cadastrar novo serviço
-Quando não informar as informações obrigatórias (descrição e valor) ou ocorrer algum erro
-Então não deve cadastrar o novo serviço mostrando mensagem de falha redirecionando para tela inicial.
+## Observações
 
-- [Wireframe](TesteTitanWireFrame.pdf)
+Projeto desenvolvido como parte do processo de avaliação técnica da **Titan**.
 
-- [Modelagem do Banco](model_teste_titan.pdf)
+A proposta foi desenvolver a aplicação sem frameworks ou bibliotecas externas, mantendo a separação de responsabilidades entre as camadas.
 
-
-Boa sorte!!
-
-
-
+**Obrigada pela oportunidade de participar do processo!**
